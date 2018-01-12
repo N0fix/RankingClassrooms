@@ -1,105 +1,120 @@
 function getPeopleVoteNumber(matiere, name)
+{
+	var value = 0;
+	for(x in votes[name][matiere])
 	{
-		var value = 0;
-		for(x in votes[name][matiere])
-		{
-			value += 1;
-		}
-		return value;
-	
+		value += 1;
 	}
-	function getPeopleVoteValue(matiere, name)
-	{
-		var x = getPeopleVoteNumber(matiere,name);
-		if ( x == 0) return 0;
-		else return ( 1 / x );
-	}
+	return value;	
+}
+function getPeopleVoteValue(matiere, name)
+{
+	var x = getPeopleVoteNumber(matiere,name);
+	if ( x == 0) return 0;
+	else return ( 1 / x );
+}
 
-	function createD(matiere)
-	{
+function createD(matiere)
+{
 		
-		var em = emptyMatrix();
+	var em = emptyMatrix();
 
-		var matrix = createTableAllPeopleWeight();
+	var matrix = createTableAllPeopleWeight();
+	var x = 0;
 
-		var x = 0;
-
-		for ( votant in em)
+	for ( votant in em)
+	{
+		for ( cible in em[votant] )
 		{
-			for ( cible in em[votant] )
+			for ( vote in votes[votant][matiere] )
 			{
-				for ( vote in votes[votant][matiere] )
+				if ( cible == votes[votant][matiere][vote] )
 				{
-					if ( cible == votes[votant][matiere][vote] )
-					{
-						em[votant][cible] = matrix[votant][matiere];
-					}
-
+					em[votant][cible] = matrix[votant][matiere];
 				}
+
 			}
 		}
-
-		for( i in em)
-		{
-			var cj = 0;
-			for ( j in em[i] )
-			{
-				x += em[i][j];
-				cj += 1;
-			}
-
-			if ( x == 0 )
-			{
-				for ( j in em[i]  )
-				{
-					em[i][j] = ( 1 / cj );
-				}
-			}
-			x = 0
-		}
-
-		return em;
 	}
 
-	function emptyMatrix()
+	for( i in em)
 	{
-		var table = new Array();
-		for ( people in votes)
+		var cj = 0;
+		for ( j in em[i] )
 		{
-			table[people] = new Array();
-			for ( people2 in votes )
-			{
-				table[people][people2] = 0;
-			}
+			x += em[i][j];
+			cj += 1;
 		}
 
-		return table;
-	}
-	function createTableAllPeopleWeight()
-	{
-		var table = new Array();
-		var x;
-		for ( name in votes )
+		if ( x == 0 )
 		{
-			table[name] = new Array();
-			for ( matiere in votes[name] )
+			for ( j in em[i]  )
 			{
-				table[name][matiere] = getPeopleVoteValue(matiere, name);
+				em[i][j] = ( 1 / cj );
 			}
 		}
-
-		return table;
+		x = 0
 	}
 
-	var table = createD("ACDA");
+	return em;
+}
 
-	var s ="";
-
-	for ( people in votes )
+function emptyMatrix()
+{
+	var table = new Array();
+	for ( people in votes)
 	{
+		table[people] = new Array();
 		for ( people2 in votes )
 		{
-			s += ( table[people][people2] + " " );
+			table[people][people2] = 0;
 		}
-		s += "<br>";
-	} 
+	}
+
+	return table;
+}
+
+function nothingMatrix()
+{
+	var table = new Array();
+	for ( people in votes)
+	{
+		table[people] = new Array();
+		for ( people2 in votes )
+		{
+			x+=1;
+		}
+		table[people][people2] = x;
+	}
+
+	return table;
+}
+
+function createTableAllPeopleWeight()
+{
+	var table = new Array();
+	var x;
+	for ( name in votes )
+	{
+		table[name] = new Array();
+		for ( matiere in votes[name] )
+		{
+			table[name][matiere] = getPeopleVoteValue(matiere, name);
+		}
+	}
+
+	return table;
+}
+
+var table = createD("ACDA");
+
+var s ="";
+
+for ( people in votes )
+{
+	for ( people2 in votes )
+	{
+		s += ( table[people][people2] + " " );
+	}
+	s += "<br>";
+} 
