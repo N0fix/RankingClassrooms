@@ -84,7 +84,7 @@ function nothingMatrix()
 		{
 			x+=1;
 		}
-		table[people][people2] = x;
+		table[people][people2] = 1/x;
 	}
 
 	return table;
