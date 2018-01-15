@@ -38,8 +38,8 @@ function printScores(){
     let w = 0;
     for(login in dict){
       let newRow = table.insertRow(w);
- 			let cellrang = newRow.insertCell(0);
-			let cellnom = newRow.insertCell(1);
+      let cellrang = newRow.insertCell(0);
+      let cellnom = newRow.insertCell(1);
       cellrang.innerHTML = ""+(w+1);
 
       cellnom.innerHTML  = ""+loginToName(dict[login][0]);
@@ -224,121 +224,121 @@ function printScores(){
 
 
   function getPeopleVoteNumber(matiere, name)
-  	{
-  		var value = 0;
-  		for(x in votes[name][matiere])
-  		{
-  			value += 1;
-  		}
-  		return value;
+    {
+      var value = 0;
+      for(x in votes[name][matiere])
+      {
+        value += 1;
+      }
+      return value;
 
-  	}
-  	function getPeopleVoteValue(matiere, name)
-  	{
-  		var x = getPeopleVoteNumber(matiere,name);
-  		if ( x == 0) return 0;
-  		else return ( 1 / x );
-  	}
+    }
+    function getPeopleVoteValue(matiere, name)
+    {
+      var x = getPeopleVoteNumber(matiere,name);
+      if ( x == 0) return 0;
+      else return ( 1 / x );
+    }
 
-  	function createTableAllPeopleWeight()
-  	{
-  		var table = new Array();
-  		var x;
-  		for ( name in votes )
-  		{
-  			table[name] = new Array();
-  			for ( matiere in votes[name] )
-  			{
-  				table[name][matiere] = getPeopleVoteValue(matiere, name);
-  			}
-  		}
+    function createTableAllPeopleWeight()
+    {
+      var table = new Array();
+      var x;
+      for ( name in votes )
+      {
+        table[name] = new Array();
+        for ( matiere in votes[name] )
+        {
+          table[name][matiere] = getPeopleVoteValue(matiere, name);
+        }
+      }
 
-  		return table;
-  	}
+      return table;
+    }
 
-  	function votantExiste(votant) /* A coder , il n'y a pas le votant dans l'obj si il a pas voté... */
-  	{
-  		if ( votes[votant] == null)
-  			return false
-  		return true;
-  	}
+    function votantExiste(votant) /* A coder , il n'y a pas le votant dans l'obj si il a pas voté... */
+    {
+      if ( votes[votant] == null)
+        return false
+      return true;
+    }
 
-  	function createD(matiere)
-  	{
+    function createD(matiere)
+    {
 
-  		var em = emptyMatrix();
+      var em = emptyMatrix();
 
-  		var matrix = createTableAllPeopleWeight();
+      var matrix = createTableAllPeopleWeight();
 
-  		var x = 0;
+      var x = 0;
 
-  		for ( votant in em)
-  		{
-  			for ( cible in em[votant] )
-  			{
+      for ( votant in em)
+      {
+        for ( cible in em[votant] )
+        {
 
-  				if ( votantExiste(votant) )
-  				{
+          if ( votantExiste(votant) )
+          {
 
-	  				for ( vote in votes[votant][matiere] )
-	  				{
-	  					if ( cible == votes[votant][matiere][vote] )
-	  					{
-	  						em[votant][cible] = matrix[votant][matiere];
-	  					}
+            for ( vote in votes[votant][matiere] )
+            {
+              if ( cible == votes[votant][matiere][vote] )
+              {
+                em[votant][cible] = matrix[votant][matiere];
+              }
 
-	  				}
-	  			}
-  			}
-  		}
+            }
+          }
+        }
+      }
 
-  		for( i in em)
-  		{
-  			for ( j in em[i] )
-  			{
-  				x += em[i][j];
-  			}
+      for( i in em)
+      {
+        for ( j in em[i] )
+        {
+          x += em[i][j];
+        }
 
-  			if ( x == 0 )
-  			{
-  				for ( j in em[i]  )
-  				{
-  					em[i][j] = getDefaultVoteValue();
-  				}
-  			}
-  			x = 0
-  		}
+        if ( x == 0 )
+        {
+          for ( j in em[i]  )
+          {
+            em[i][j] = getDefaultVoteValue();
+          }
+        }
+        x = 0
+      }
 
-  		return em;
-  	}
+      return em;
+    }
 
-  	function emptyMatrix()
-  	{
-  		var table = new Array();
-  		var g = getNumberParticipants();
-  		for ( x in logins )
-  		{
-  			table[x] = new Array();
-  			for ( y in logins  )
-  			{
-  				table[x][y] = 0;
-  			}
-  		}
+    function emptyMatrix()
+    {
+      var table = new Array();
+      var g = getNumberParticipants();
+      for ( x in logins )
+      {
+        table[x] = new Array();
+        for ( y in logins  )
+        {
+          table[x][y] = 0;
+        }
+      }
 
-  		return table;
-  	}
+      return table;
+    }
 
-  	document.write(getNumberParticipants());
-  	document.write("<br>");
-  	
-  	var table = createD("ACDA");
+    document.write(getNumberParticipants());
+    document.write("<br>");
+    
+    var table = createD("ACDA");
 
-  	var s ="";
-  	for ( i in table)
-  	{
-  		for ( j in table[i]  )
-  		{
-  			document.write(table[i][j]+" ");
-  		}
-  		document.write("<br>");
+    var s ="";
+    for ( i in table)
+    {
+      for ( j in table[i]  )
+      {
+        document.write(table[i][j]+" ");
+      }
+      document.write("<br>");
   }
