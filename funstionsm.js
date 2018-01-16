@@ -263,7 +263,7 @@ function printScores(){
       return true;
     }
 
-    function createD(matiere)
+    function createDOld(matiere)
     {
 
       var em = emptyMatrix();
@@ -312,6 +312,44 @@ function printScores(){
       return em;
     }
 
+    function createD(matiere)
+    {
+
+      var em = emptyMatrix();
+
+      var matrix = createTableAllPeopleWeight();
+
+      var x = 0;
+
+      for ( votant in votes)
+      {
+        for ( cible in votes[votant][matiere] )
+        {
+          if ( em[votant] != null )
+            em[votant][cible] = matrix[votant][matiere];
+        }
+      }
+
+      for( i in em)
+      {
+        for ( j in em[i] )
+        {
+          x += em[i][j];
+        }
+
+        if ( x == 0 )
+        {
+          for ( j in em[i]  )
+          {
+            em[i][j] = getDefaultVoteValue();
+          }
+        }
+        x = 0
+      }
+
+      return em;
+    }
+
     function emptyMatrix()
     {
       var table = new Array();
@@ -327,18 +365,3 @@ function printScores(){
 
       return table;
     }
-
-    document.write(getNumberParticipants());
-    document.write("<br>");
-    
-    var table = createD("ACDA");
-
-    var s ="";
-    for ( i in table)
-    {
-      for ( j in table[i]  )
-      {
-        document.write(table[i][j]+" ");
-      }
-      document.write("<br>");
-  }
