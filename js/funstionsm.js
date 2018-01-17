@@ -280,13 +280,15 @@ function newDictionnary(){
   		return value;
 
   	}
+    /* get the vote value of people(name) in the matter(matiere) */
   	function getPeopleVoteValue(matiere, name)
   	{
   		var x = getPeopleVoteNumber(matiere,name);
   		if ( x == 0) return 0;
   		else return ( 1 / x );
   	}
-
+    /* Create an array of people vote value
+      Use login to navigate  */
   	function createTableAllPeopleWeight()
   	{
   		var table = new Array();
@@ -303,13 +305,15 @@ function newDictionnary(){
   		return table;
   	}
 
-  	function votantExiste(votant) /* A coder , il n'y a pas le votant dans l'obj si il a pas voté... */
+    /* check if a people is in the votes object */
+  	function votantExiste(votant)
   	{
   		if ( votes[votant] == null)
   			return false
   		return true;
   	}
 
+    /* Create a matrix of people vote value and fill with neutral value the votes of people who didn't vote */
   	function createD(matiere)
   	{
 
@@ -319,19 +323,19 @@ function newDictionnary(){
 
   		var x = 0;
 
-  		for ( votant in em)
+  		for ( votant in em) /* browse the voters */
   		{
-  			for ( cible in em[votant] )
+  			for ( cible in em[votant] ) /* browse the digital votes of voters */
   			{
 
-  				if ( votantExiste(votant) )
+  				if ( votantExiste(votant) ) /* if the voter exist in the votes object, */
   				{
 
-	  				for ( vote in votes[votant][matiere] )
+	  				for ( vote in votes[votant][matiere] ) /* browse the real votes of the voters */
 	  				{
-	  					if ( cible == votes[votant][matiere][vote] )
+	  					if ( cible == votes[votant][matiere][vote] ) /* if the real vote exist */
 	  					{
-	  						em[votant][cible] = matrix[votant][matiere];
+	  						em[votant][cible] = matrix[votant][matiere]; /* fill the case with the voter vote value */
 	  					}
 
 	  				}
@@ -339,6 +343,7 @@ function newDictionnary(){
   			}
   		}
 
+      /* fill the neutrals value */
   		for( i in em)
   		{
   			for ( j in em[i] )
@@ -346,7 +351,7 @@ function newDictionnary(){
   				x += em[i][j];
   			}
 
-  			if ( x == 0 )
+  			if ( x == 0 ) /* if the sum of vote value is null, fill the case with voter default vote value */
   			{
   				for ( j in em[i]  )
   				{
@@ -358,7 +363,7 @@ function newDictionnary(){
 
   		return em;
   	}
-
+    /* create a voters and vote matrix and fill it with 0 */
   	function emptyMatrix()
   	{
   		var table = new Array();
